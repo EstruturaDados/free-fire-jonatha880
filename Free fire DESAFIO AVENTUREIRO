@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_ITENS 100
+#define MAX_NOME 50
+
+// Estrutura para representar o item
+typedef struct {
+    char nome[MAX_NOME];
+    float preco;
+    int quantidade;
+} Item;
+
+int main() {
+    // Simulando alguns itens já inseridos no sistema
+    Item inventario[MAX_ITENS] = {
+        {"Cadeira", 150.0, 10},
+        {"Mesa", 450.0, 5},
+        {"Teclado", 120.0, 20},
+        {"Mouse", 80.0, 15}
+    };
+    int totalItens = 4; // Quantidade de itens no sistema
+
+    char termoBusca[MAX_NOME];
+    int encontrado = 0; // Esta é a nossa "FLAG" (0 = falso, 1 = verdadeiro)
+
+    printf("--- Busca de Item por Nome ---\n");
+    printf("Digite o nome do item que deseja buscar: ");
+    
+    // Entrada: O usuário digita o nome
+    fgets(termoBusca, MAX_NOME, stdin);
+    termoBusca[strcspn(termoBusca, "\n")] = 0; // Remove o '\n' do final da string
+
+    // Lógica: Busca Sequencial
+    for (int i = 0; i < totalItens; i++) {
+        // Comparação de strings usando strcmp
+        if (strcmp(inventario[i].nome, termoBusca) == 0) {
+            // Saída: Exposição detalhada do item encontrado
+            printf("\nItem encontrado com sucesso!\n");
+            printf("Nome: %s\n", inventario[i].nome);
+            printf("Preco: R$ %.2f\n", inventario[i].preco);
+            printf("Quantidade em estoque: %d\n", inventario[i].quantidade);
+            
+            encontrado = 1; // Ativa a flag
+            break; // Interrompe a busca pois já achou
+        }
+    }
+
+    // Caso contrário: Mensagem de erro amigável baseada na flag
+    if (!encontrado) {
+        printf("\nOps! O item '%s' nao foi encontrado em nosso sistema.\n", termoBusca);
+    }
+
+    return 0;
+}
